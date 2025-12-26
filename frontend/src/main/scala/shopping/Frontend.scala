@@ -3,7 +3,7 @@ package shopping
 import com.raquo.laminar.api.L.{_, given}
 import org.scalajs.dom
 import org.scalajs.dom.Element
-import shopping.ViewModel.defaultItems
+import shopping.ViewModel.defaultSelectableList
 
 // Building Scala.js application
 object Frontend {
@@ -14,7 +14,9 @@ object Frontend {
   }
 
   private def run(mount: dom.Element): Unit = {
-    val dynViewModel: Var[ViewModel] = Var(ViewModel(items = defaultItems))
+    val dynViewModel: Var[ViewModel] = Var(
+      ViewModel(items = defaultSelectableList)
+    )
     val controller = Controller(dynModel = dynViewModel)
     val view = View(controller)
 
