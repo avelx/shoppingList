@@ -64,8 +64,12 @@ class View(controller: Controller) {
                 className := "bg-gray-50 border-b",
                 tr(
                   th(
-                    className := "px-12 py-4 text-left text-sm font-semibold text-gray-700",
-                    "Category"
+                    className := "px-6 py-4 text-left text-sm font-semibold text-gray-700",
+                    "Item"
+                  ),
+                  th(
+                    className := "px-4 py-4 text-left text-sm font-semibold text-gray-700",
+                    "Unselect"
                   )
                 )
               ),
@@ -104,8 +108,8 @@ class View(controller: Controller) {
             tbody(
               className := "divide-y divide-gray-200",
               children <-- vm
-                .map(_.items.keys.toSeq.sortBy(_.name))
-                .map(_.map(categoryItem(_)))
+                .map(_.items.keys.toSeq)
+                .map(_.map(id => categoryItem(id)))
             )
           )
         )
@@ -150,16 +154,24 @@ class View(controller: Controller) {
     )
   }
 
-  private def categoryItem(cItem: Category): Node = {
-    tr(
-      td(
-        className := "px-12 py-4 text-gray-800 font-medium",
-        div(
-          cItem.name,
-          onClick --> controller.onCategorySelected(cItem)
+  private def categoryItem(cid: String): Node = {
+    Categories.all
+      .find(_.cid == cid)
+      .map(cItem =>
+        tr(
+          td(
+            className := "px-12 py-4 text-gray-800 font-medium",
+            div(
+              cItem.name,
+              onClick --> controller.onCategorySelected(cItem)
+            )
+          )
         )
       )
-    )
+      .getOrElse {
+        tr(
+        )
+      }
   }
 
   def item(selectable: SelectableItem): Node = {
@@ -207,7 +219,7 @@ class View(controller: Controller) {
     tr(
       td(
         className := "px-6 py-4 text-gray-800 font-medium",
-        selectable.item.name
+        s"${selectable.num.get.toString} :: ${selectable.item.name}"
       ),
       td(
         className := "px-4 py-4 text-center",

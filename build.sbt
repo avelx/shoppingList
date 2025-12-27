@@ -7,6 +7,7 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 val http4sVersion = "0.23.33"
 val laminarVersion = "17.2.1"
 val shoppingVersion = "0.0.1"
+val BorerVersion = "1.14.0"
 
 commands += Command.command("build") { state =>
   "clean" ::
@@ -67,7 +68,9 @@ lazy val frontend = project
     name := """shopping-frontend""",
     mainClass := Some("shopping.Frontend"),
     libraryDependencies ++= Seq(
-      "com.raquo" %%% "laminar" % laminarVersion
+      "com.raquo" %%% "laminar" % laminarVersion,
+      "io.bullet" %%% "borer-core" % BorerVersion,
+      "io.bullet" %%% "borer-derivation" % BorerVersion
     ),
     scalaJSUseMainModuleInitializer := true
   )
