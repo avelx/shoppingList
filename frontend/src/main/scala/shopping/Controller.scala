@@ -17,15 +17,15 @@ class Controller(dynModel: Var[ViewModel]) {
     )
   }
 
-  def onSelectItem(id: Int): Unit = {
+  def onSelectItem(id: String): Unit = {
     dynModel.update(vm =>
       vm.selectedCategory match {
         case Some(category) =>
-          vm.items.get(category) match {
+          vm.items.get(category.cid) match {
             case Some(items) =>
               val item = items.find(_.item.id == id).get
               val itemUpdate = item.copy(selected = !item.selected)
-              val updated = vm.items + (category -> (items
+              val updated = vm.items + (category.cid -> (items
                 .filterNot(e => e.item.id == id) :+ itemUpdate))
               vm.copy(items = updated)
 
@@ -37,15 +37,15 @@ class Controller(dynModel: Var[ViewModel]) {
     )
   }
 
-  def onUnSelectedInBasket(id: Int): Unit = {
+  def onUnSelectedInBasket(id: String): Unit = {
     dynModel.update(vm =>
       vm.selectedCategory match {
         case Some(category) =>
-          vm.items.get(category) match {
+          vm.items.get(category.cid) match {
             case Some(items) =>
               val item = items.find(_.item.id == id).get
               val itemUpdate = item.copy(selected = false)
-              val updated = vm.items + (category -> (items
+              val updated = vm.items + (category.cid -> (items
                 .filterNot(e => e.item.id == id) :+ itemUpdate))
               vm.copy(items = updated)
 
