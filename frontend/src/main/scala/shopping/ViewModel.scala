@@ -7,7 +7,11 @@ import shopping.ViewModelState.ItemByCategoryView
 
 final case class Category(cid: Int, name: String, desc: String)
 final case class Item(id: Int, name: String)
-final case class SelectableItem(item: Item, selected: Boolean)
+final case class SelectableItem(
+    item: Item,
+    selected: Boolean,
+    num: Option[Int] = None
+)
 
 enum ViewModelState:
   case CategoriesView
@@ -36,7 +40,10 @@ final case class ViewModel(
   }
 
   val selectedItems: List[SelectableItem] =
-    items.values.flatten.toList.filter(_.selected)
+    items.values.flatten.toList
+      .filter(_.selected)
+      .zipWithIndex
+      .map(e => e._1.copy(num = Some(e._2 + 1)))
 
   val pageTitle = state match {
     case CategoriesView =>
@@ -71,9 +78,9 @@ object Items {
   // Dairy
   private val milk = Item(id = 50, name = "Milk")
   private val cheese = Item(id = 51, name = "Cheese")
-  private val yogurt = Item(id = 52, name = "Cheese")
-  private val butter = Item(id = 53, name = "Cheese")
-  private val eggs = Item(id = 54, name = "Cheese")
+  private val yogurt = Item(id = 52, name = "Yogurt")
+  private val butter = Item(id = 53, name = "Butter")
+  private val eggs = Item(id = 54, name = "Eggs")
 
   // category -> item relationship
   val defaultItemsByCategory: Map[Category, List[SelectableItem]] =

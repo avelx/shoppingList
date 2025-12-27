@@ -211,7 +211,7 @@ class View(controller: Controller) {
     tr(
       td(
         className := "px-6 py-4 text-gray-800 font-medium",
-        selectable.item.name
+        s"${selectable.num.get.toString} :: ${selectable.item.name}"
       ),
       td(
         className := "px-4 py-4 text-center",
