@@ -28,6 +28,7 @@ final case class ViewModel(
           .get(category)
           .getOrElse(List.empty)
           .sortBy(_.item.name)
+          .filter(_.selected == false)
       case None =>
         List.empty
     }
@@ -61,6 +62,13 @@ object Items {
   private val beer = Item(id = 11, name = "Beer")
   private val wine = Item(id = 12, name = "Wine")
 
+  // Pantry
+  private val pasta = Item(id = 21, name = "Pasta")
+  private val rice = Item(id = 22, name = "Rice")
+  private val cereal = Item(id = 23, name = "Cereal")
+  private val sugar = Item(id = 24, name = "Sugar")
+  private val oils = Item(id = 25, name = "Oils")
+
   // category -> item relationship
   val defaultItemsByCategory: Map[Category, List[SelectableItem]] =
     Map[Category, List[SelectableItem]](
@@ -71,6 +79,13 @@ object Items {
       beverages -> List(
         SelectableItem(item = beer, false),
         SelectableItem(item = wine, false)
+      ),
+      pantry -> List(
+        SelectableItem(item = pasta, false),
+        SelectableItem(item = rice, false),
+        SelectableItem(item = cereal, false),
+        SelectableItem(item = sugar, false),
+        SelectableItem(item = oils, false)
       )
     )
 }

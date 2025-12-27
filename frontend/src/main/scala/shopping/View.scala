@@ -64,8 +64,12 @@ class View(controller: Controller) {
                 className := "bg-gray-50 border-b",
                 tr(
                   th(
-                    className := "px-12 py-4 text-left text-sm font-semibold text-gray-700",
-                    "Category"
+                    className := "px-6 py-4 text-left text-sm font-semibold text-gray-700",
+                    "Item"
+                  ),
+                  th(
+                    className := "px-4 py-4 text-left text-sm font-semibold text-gray-700",
+                    "Unselect"
                   )
                 )
               ),
