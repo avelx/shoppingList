@@ -3,6 +3,7 @@ package shopping
 import com.raquo.laminar.api.L.{_, given}
 import org.scalajs.dom
 import org.scalajs.dom.Element
+import shopping.ViewModel.viewModelVar
 
 // Building Scala.js application
 object Frontend {
@@ -13,6 +14,7 @@ object Frontend {
   }
 
   private def run(mount: dom.Element): Unit = {
+    // Switch to WebStoreVar after migration
     val defaultViewModel: Var[ViewModel] = Var(ViewModel.defaultViewModel)
     val controller = Controller(dynModel = defaultViewModel)
     val view = View(controller)

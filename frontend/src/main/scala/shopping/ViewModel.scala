@@ -1,9 +1,16 @@
 package shopping
 
+import com.raquo.airstream.web.WebStorageVar
+import io.bullet.borer.Codec
+import io.bullet.borer.Json
+import io.bullet.borer.derivation.MapBasedCodecs._
 import shopping.Categories._
 import shopping.ViewModelState.BasketView
 import shopping.ViewModelState.CategoriesView
 import shopping.ViewModelState.ItemByCategoryView
+
+import java.nio.charset.StandardCharsets
+import scala.util.Try
 
 final case class Category(cid: Int, name: String, desc: String)
 final case class Item(id: Int, name: String)
@@ -149,11 +156,33 @@ object Categories {
 }
 
 object ViewModel {
+
+  given itemCodec: Codec[Item] = deriveCodec
+  given selectableItemCodec: Codec[SelectableItem] = deriveCodec
+  given categoryCodec: Codec[Category] = deriveCodec
+  given viewModelStateCodec: Codec[ViewModelState] = deriveCodec
+  given viewModelCodec: Codec[ViewModel] = deriveCodec
+
   val defaultViewModel =
     ViewModel(
       state = CategoriesView,
       selectedCategory = None,
       items = Items.defaultItemsByCategory,
       basket = Map.empty
+    )
+
+  val viewModelVar = WebStorageVar
+    .localStorage(
+      key = "ShoppingListViewModel",
+      syncOwner = None
+    )
+    .withCodec[ViewModel](
+      encode = hs => Json.encode(hs).toUtf8String,
+      decode = jsonStr =>
+        Json
+          .decode(jsonStr.getBytes(StandardCharsets.UTF_8))
+          .to[ViewModel]
+          .valueTry,
+      default = Try(defaultViewModel)
     )
 }
