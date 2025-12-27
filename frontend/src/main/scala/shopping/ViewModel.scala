@@ -1,7 +1,9 @@
 package shopping
 
 import shopping.Categories._
+import shopping.ViewModelState.BasketView
 import shopping.ViewModelState.CategoriesView
+import shopping.ViewModelState.ItemByCategoryView
 
 final case class Category(cid: Int, name: String, desc: String)
 final case class Item(id: Int, name: String)
@@ -34,6 +36,15 @@ final case class ViewModel(
 
   val selectedItems: List[SelectableItem] =
     items.values.flatten.toList.filter(_.selected)
+
+  val pageTitle = state match {
+    case CategoriesView =>
+      "Category Selection"
+    case ItemByCategoryView =>
+      "Select Item"
+    case BasketView =>
+      "Basket Items"
+  }
 }
 
 // Source of Items
