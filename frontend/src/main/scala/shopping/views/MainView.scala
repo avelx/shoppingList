@@ -9,6 +9,7 @@ import shopping.Controller
 import shopping.models.ViewModel
 import shopping.models.ViewModelState.BasketView
 import shopping.models.ViewModelState.CategoriesView
+import shopping.models.ViewModelState.ItemByCategoryView
 
 class MainView(controller: Controller)
     extends BasketView(controller)
@@ -27,22 +28,52 @@ class MainView(controller: Controller)
       div(
         className := "flex flex-row",
         div(
-          className := "basis-1/2 items-center justify-center rounded-lg bg-sky-500",
-          input(
-            value := "[Select Item]",
-            `type` := "button",
-            onClick --> controller.onViewButtonPressed(CategoriesView)
+          className := "basis-1/2 items-center justify-center rounded-lg",
+          button(
+            className <--
+              vm.map(_.state)
+                .map(s =>
+                  s match {
+                    case CategoriesView =>
+                      "bg-indigo-600 hover:focus:bg-indigo-500"
+                    case BasketView =>
+                      "bg-green--400 hover:focus:bg-green-500"
+                    case ItemByCategoryView =>
+                      "bg-red-400 hover:not-focus:bg-red-700"
+                  }
+                ),
+            "Available Items",
+            onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
+              CategoriesView
+            )
           ),
-          onClick --> controller.onViewButtonPressed(CategoriesView)
+          onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
+            CategoriesView
+          )
         ),
         div(
-          className := "basis-1/2 items-center justify-center rounded-lg bg-sky-500",
-          input(
-            value := "[View Basket]",
-            `type` := "button",
-            onClick --> controller.onViewButtonPressed(BasketView)
+          className := "basis-1/2 items-center justify-center rounded-lg",
+          button(
+            className <--
+              vm.map(_.state)
+                .map(s =>
+                  s match {
+                    case ItemByCategoryView =>
+                      "bg-indigo-600 hover:focus:bg-indigo-500"
+                    case CategoriesView =>
+                      "bg-green--400 hover:focus:bg-green-500"
+                    case BasketView =>
+                      "bg-red-400 hover:not-focus:bg-red-700"
+                  }
+                ),
+            "View Basket",
+            onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
+              BasketView
+            )
           ),
-          onClick --> controller.onViewButtonPressed(BasketView)
+          onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
+            BasketView
+          )
         )
       ),
       div(

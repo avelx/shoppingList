@@ -31,6 +31,12 @@ object CategoriesData {
     "Milk, cheese, yogurt, butter, eggs, prepared meals"
   )
 
+  val houseHold = Category(
+    cid = "15",
+    "Household/Cleaning",
+    "Detergent, paper towels, trash bags, sponges."
+  )
+
   val all: List[Category] = List(
     produce,
     meatAndSeadFood,
