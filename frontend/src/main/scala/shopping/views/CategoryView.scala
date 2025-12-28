@@ -32,12 +32,11 @@ trait CategoryView(controller: Controller) {
             tbody(
               className := "divide-y divide-gray-200",
               children <-- vm
-                .map(m => m.items.keys.toSeq)
-                .map(y =>
-                  y.map(id => {
-                    categoryItem(id)
-                  })
-                )
+                .map(_.items)
+                .map(_.toList.collect { case (cid, v) =>
+                  val categoryCount = v.map(_.selected == false).length
+                  categoryItem(cid, categoryCount)
+                })
             )
           )
         )
@@ -45,7 +44,7 @@ trait CategoryView(controller: Controller) {
     )
   }
 
-  private def categoryItem(cid: String): Node = {
+  private def categoryItem(cid: String, count: Int): Node = {
     CategoriesData.all
       .find(_.cid == cid)
       .map(cItem =>
@@ -53,7 +52,7 @@ trait CategoryView(controller: Controller) {
           td(
             className := "px-12 py-4 text-gray-800 font-medium",
             div(
-              s"${cItem.name}",
+              s"($count) - ${cItem.name}",
               onClick --> controller.onCategorySelected(cItem)
             )
           )
