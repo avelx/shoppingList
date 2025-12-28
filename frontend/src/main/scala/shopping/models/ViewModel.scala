@@ -62,7 +62,7 @@ final case class ViewModel(
       "Basket Items"
   }
 
-  val categories = Categories.all
+  val categories = CategoriesData.all
 }
 
 object ViewModel {
@@ -72,7 +72,7 @@ object ViewModel {
     ViewModel(
       state = CategoriesView,
       selectedCategory = None,
-      items = Items.defaultItemsByCategory,
+      items = ItemsData.defaultItemsByCategory,
       basket = Map.empty
     )
 

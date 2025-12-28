@@ -4,7 +4,7 @@ import com.raquo.laminar.api.L.Signal
 import com.raquo.laminar.api.L.{_, given}
 import com.raquo.laminar.api.features.unitArrows
 import shopping.Controller
-import shopping.models.Categories
+import shopping.models.CategoriesData
 import shopping.models.ViewModel
 import shopping.models.ViewModelState.CategoriesView
 
@@ -41,8 +41,8 @@ trait CategoryView(controller: Controller) {
     )
   }
 
-  def categoryItem(cid: String): Node = {
-    Categories.all
+  private def categoryItem(cid: String): Node = {
+    CategoriesData.all
       .find(_.cid == cid)
       .map(cItem =>
         tr(
@@ -57,6 +57,12 @@ trait CategoryView(controller: Controller) {
       )
       .getOrElse {
         tr(
+          td(
+            className := "px-12 py-4 text-gray-800 font-medium",
+            div(
+              "No category selected"
+            )
+          )
         )
       }
   }

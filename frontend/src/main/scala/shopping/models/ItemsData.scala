@@ -1,16 +1,15 @@
 package shopping.models
 
-import shopping.models.Categories.beverages
-import shopping.models.Categories.dairy
-import shopping.models.Categories.pantry
-import shopping.models.Categories.produce
+import shopping.models.CategoriesData.beverages
+import shopping.models.CategoriesData.dairy
+import shopping.models.CategoriesData.pantry
+import shopping.models.CategoriesData.produce
 
-object Items {
+object ItemsData {
 
   // List of items
   private val apples = Item("1", "Apples")
   private val berries = Item("2", "Berries")
-
   private val minWater = Item(id = "5", name = "Mineral Water")
   private val bread = Item(id = "7", name = "Bread")
 
