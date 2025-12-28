@@ -56,4 +56,13 @@ object ItemsData {
         SelectableItem(item = eggs, false)
       )
     )
+
+  def getCategoryByItemId(id: String): Option[Category] = {
+    val res = defaultItemsByCategory
+      .find(p => p._2.find(_.item.id == id).isDefined)
+    res
+      .map(_._1)
+      .map(cid => CategoriesData.all.find(category => category.cid == cid))
+      .flatten
+  }
 }

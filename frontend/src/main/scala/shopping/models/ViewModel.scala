@@ -63,6 +63,7 @@ final case class ViewModel(
   }
 
   val categories = CategoriesData.all
+
 }
 
 object ViewModel {
