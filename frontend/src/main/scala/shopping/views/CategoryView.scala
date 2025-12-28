@@ -32,8 +32,12 @@ trait CategoryView(controller: Controller) {
             tbody(
               className := "divide-y divide-gray-200",
               children <-- vm
-                .map(_.items.keys.toSeq)
-                .map(_.map(id => categoryItem(id)))
+                .map(m => m.items.keys.toSeq)
+                .map(y =>
+                  y.map(id => {
+                    categoryItem(id)
+                  })
+                )
             )
           )
         )
@@ -49,7 +53,7 @@ trait CategoryView(controller: Controller) {
           td(
             className := "px-12 py-4 text-gray-800 font-medium",
             div(
-              cItem.name,
+              s"${cItem.name}",
               onClick --> controller.onCategorySelected(cItem)
             )
           )

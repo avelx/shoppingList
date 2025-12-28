@@ -58,6 +58,8 @@ final case class ViewModel(
       "Category Selection"
     case ItemByCategoryView =>
       "Select Item"
+    case BasketView if selectedItems.length == 0 =>
+      "Basket Items:: No Items Selected"
     case BasketView =>
       "Basket Items"
   }
