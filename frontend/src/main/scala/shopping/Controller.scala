@@ -1,8 +1,10 @@
 package shopping
 
 import com.raquo.laminar.api.L.Var
-import shopping.ViewModel
-import shopping.ViewModelState.ItemByCategoryView
+import shopping.models.Category
+import shopping.models.ViewModel
+import shopping.models.ViewModelState
+import shopping.models.ViewModelState.ItemByCategoryView
 
 // Various actions for view model
 class Controller(dynModel: Var[ViewModel]) {
