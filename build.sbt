@@ -57,7 +57,7 @@ lazy val backend = project
       "shoppingVersion" -> shoppingVersion,
       "frontendPath" -> (frontend / Compile / fastLinkJS / scalaJSLinkerOutputDirectory).value
     ),
-    buildInfoPackage := "shl"
+    buildInfoPackage := "shopping"
   )
   .enablePlugins(BuildInfoPlugin)
   .dependsOn(shared.jvm)

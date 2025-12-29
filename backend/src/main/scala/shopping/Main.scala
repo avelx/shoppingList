@@ -11,6 +11,7 @@ import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.headers.`Content-Type`
 import org.http4s.server.Router
 import org.http4s.server.Server
+import shopping.BuildInfo
 
 import Utils.readFileFromResource
 
@@ -57,7 +58,8 @@ object Backend extends IOApp {
       StaticFile
         .fromPath(
           Path(
-            "/Users/pavel/devcore/plaground/shoppingList/frontend/target/scala-3.6.4/shopping-frontend-fastopt/main.js"
+            s"${BuildInfo.frontendPath.toString}/main.js"
+            // "/Users/pavel/devcore/plaground/shoppingList/frontend/target/scala-3.6.4/shopping-frontend-fastopt/main.js"
           ),
           Some(request)
         )
