@@ -20,8 +20,9 @@ object Backend extends IOApp {
     app.use(_ => IO.never).as(ExitCode.Success)
 
   private val staticFilesExtensions: List[String] = List(".html", ".json")
+  private val imagesExtensions: List[String] = List(".png")
 
-  private val static = HttpRoutes.of[IO] {
+  private val staticRoute = HttpRoutes.of[IO] {
     case request @ GET -> Root / path
         if staticFilesExtensions.exists(path.endsWith) =>
       readFileFromResource(path) match {
@@ -32,6 +33,19 @@ object Backend extends IOApp {
             } else {
               `Content-Type`(MediaType.text.html)
             })
+          ) // Support other content types)
+        case Left(ex) =>
+          NotFound()
+      }
+  }
+
+  private val imageRoute = HttpRoutes.of[IO] {
+    case request@GET -> Root / path
+      if imagesExtensions.exists(path.endsWith) =>
+      readFileFromResource("images/" + path) match {
+        case Right(content) =>
+          Ok(content).map(
+            _.withContentType(`Content-Type`(MediaType.image.png))
           ) // Support other content types)
         case Left(ex) =>
           NotFound()
@@ -50,26 +64,15 @@ object Backend extends IOApp {
         .getOrElseF(NotFound()) // In case the file doesn't exist
   }
 
-  private val imagesExtensions: List[String] = List(".png")
 
-  private val images = HttpRoutes.of[IO] {
-    case request @ GET -> Root / path
-        if imagesExtensions.exists(path.endsWith) =>
-      readFileFromResource("images/" + path) match {
-        case Right(content) =>
-          Ok(content).map(
-            _.withContentType(`Content-Type`(MediaType.image.png))
-          ) // Support other content types)
-        case Left(ex) =>
-          NotFound()
-      }
-  }
+
+
 
   private val httpApp: HttpApp[IO] =
     Router(
-      "app" -> static,
+      "app" -> staticRoute,
       "js" -> javascript,
-      "images" -> images
+      "images" -> imageRoute
     ).orNotFound
 
   private val app: Resource[IO, Server] =
