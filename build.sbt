@@ -70,9 +70,13 @@ lazy val frontend = project
     libraryDependencies ++= Seq(
       "com.raquo" %%% "laminar" % laminarVersion,
       "io.bullet" %%% "borer-core" % BorerVersion,
-      "io.bullet" %%% "borer-derivation" % BorerVersion
+      "io.bullet" %%% "borer-derivation" % BorerVersion,
+      "org.scala-js" %%% "scalajs-dom" % "2.8.0", // TODO: do we need to remove this??
+      "com.lihaoyi" %%% "utest" % "0.9.2" % "test"
     ),
-    scalaJSUseMainModuleInitializer := true
+    scalaJSUseMainModuleInitializer := true,
+    jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv(),
+    testFrameworks += new TestFramework("utest.runner.Framework")
   )
   .enablePlugins(ScalaJSPlugin)
   .dependsOn(shared.js)
