@@ -1,0 +1,15 @@
+{
+  "short_name": "ShoppingList",
+  "name": "Shopping List Smart App",
+  "icons": [
+    {
+      "src": "/images/team-shopping-list-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "http://localhost:8080/app/index.html",
+  "display": "standalone",
+  "theme_color": "black",
+  "background_color": "white"
+}
