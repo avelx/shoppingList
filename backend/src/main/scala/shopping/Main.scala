@@ -34,7 +34,7 @@ object Backend extends IOApp {
             } else {
               `Content-Type`(MediaType.text.html)
             })
-          ) // Support other content types)
+          ) // Support other content types
         case Left(ex) =>
           NotFound()
       }
@@ -59,7 +59,6 @@ object Backend extends IOApp {
         .fromPath(
           Path(
             s"${BuildInfo.frontendPath.toString}/main.js"
-            // "/Users/pavel/devcore/plaground/shoppingList/frontend/target/scala-3.6.4/shopping-frontend-fastopt/main.js"
           ),
           Some(request)
         )
