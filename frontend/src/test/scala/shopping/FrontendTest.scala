@@ -12,9 +12,8 @@ import scala.scalajs.js
 // ::Simple test example::
 object FrontendTest extends TestSuite {
 
-  // Initialize App
-//  lazy val mount = dom.document.getElementById("mount")
-//  FrontendApp.setupUI(mount)
+  // https://laminar.dev/documentation#waiting-for-the-dom-to-load
+  // Waiting for the DOM to load
   windowEvents(_.onLoad).foreach { _ =>
     lazy val appContainer = dom.document.getElementById("mount")
     FrontendApp.setupUI(appContainer)
