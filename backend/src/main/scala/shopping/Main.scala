@@ -40,8 +40,8 @@ object Backend extends IOApp {
   }
 
   private val imageRoute = HttpRoutes.of[IO] {
-    case request@GET -> Root / path
-      if imagesExtensions.exists(path.endsWith) =>
+    case request @ GET -> Root / path
+        if imagesExtensions.exists(path.endsWith) =>
       readFileFromResource("images/" + path) match {
         case Right(content) =>
           Ok(content).map(
@@ -63,10 +63,6 @@ object Backend extends IOApp {
         )
         .getOrElseF(NotFound()) // In case the file doesn't exist
   }
-
-
-
-
 
   private val httpApp: HttpApp[IO] =
     Router(
