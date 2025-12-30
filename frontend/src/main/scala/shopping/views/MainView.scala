@@ -18,28 +18,25 @@ class MainView(controller: Controller)
 
   def build(vm: Signal[ViewModel]): ReactiveHtmlElement[HTMLDivElement] = {
     div(
+      className := "container text-start",
       div(
-        className := "max-w-5xl mx-auto",
+        className := "row",
         div(
-          className := "text-center mb-8",
+          className := "col",
           text <-- vm.map(_.pageTitle)
         )
       ),
       div(
-        className := "flex flex-row",
+        className := "row",
         div(
-          className := "basis-1/2 items-center justify-center rounded-lg",
+          className := "col",
           button(
             className <--
               vm.map(_.state)
                 .map(s =>
                   s match {
-                    case CategoriesView =>
-                      "bg-indigo-600 hover:focus:bg-indigo-500"
-                    case BasketView =>
-                      "bg-green--400 hover:focus:bg-green-500"
-                    case ItemByCategoryView =>
-                      "bg-red-400 hover:not-focus:bg-red-700"
+                    case _ =>
+                      "btn btn-primary"
                   }
                 ),
             "Available Items",
@@ -52,18 +49,14 @@ class MainView(controller: Controller)
           )
         ),
         div(
-          className := "basis-1/2 items-center justify-center rounded-lg",
+          className := "col",
           button(
             className <--
               vm.map(_.state)
                 .map(s =>
                   s match {
-                    case ItemByCategoryView =>
-                      "bg-indigo-600 hover:focus:bg-indigo-500"
-                    case CategoriesView =>
-                      "bg-green--400 hover:focus:bg-green-500"
-                    case BasketView =>
-                      "bg-red-400 hover:not-focus:bg-red-700"
+                    case _ =>
+                      "btn btn-success"
                   }
                 ),
             "View Basket",
@@ -77,8 +70,15 @@ class MainView(controller: Controller)
         )
       ),
       div(
-        viewCategories(vm),
-        itemsView(vm),
+        className := "row",
+        viewCategories(vm)
+      ),
+      div(
+        className := "row",
+        itemsView(vm)
+      ),
+      div(
+        className := "row",
         viewBasket(vm)
       )
     )

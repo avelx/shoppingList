@@ -12,36 +12,31 @@ trait CategoryView(controller: Controller) {
 
   def viewCategories(vm: Signal[ViewModel]): Div = {
     div(
+      className := "col-12",
       display <-- vm.map(m =>
         if (m.state == CategoriesView) then "block" else "none"
       ),
-      div(
-        div(
-          className := "overflow-x-auto",
-          table(
-            className := "w-full",
-            thead(
-              className := "bg-gray-50 border-b",
-              tr(
-                th(
-                  className := "px-12 py-4 text-left text-sm font-semibold text-gray-700",
-                  "Category"
-                )
-              )
-            ),
-            tbody(
-              className := "divide-y divide-gray-200",
-              children <-- vm
-                .map(_.items)
-                .map(_.toList.collect { case (cid, v) =>
-                  val categoryCount = v.map(_.selected == false).length
-                  categoryItem(cid, categoryCount)
-                })
+      table(
+        className := "table table-success table-striped table-hover table-bordered border-primary",
+        thead(
+          tr(
+            th(
+              className := "col",
+              "Category"
             )
           )
+        ),
+        tbody(
+          children <-- vm
+            .map(_.items)
+            .map(_.toList.collect { case (cid, v) =>
+              val categoryCount = v.map(_.selected == false).length
+              categoryItem(cid, categoryCount)
+            })
         )
       )
     )
+
   }
 
   private def categoryItem(cid: String, count: Int): Node = {
@@ -50,21 +45,17 @@ trait CategoryView(controller: Controller) {
       .map(cItem =>
         tr(
           td(
-            className := "px-12 py-4 text-gray-800 font-medium",
-            div(
-              s"($count) - ${cItem.name}",
-              onClick --> controller.onCategorySelected(cItem)
-            )
+            className := "col",
+            s"($count) - ${cItem.name}",
+            onClick --> controller.onCategorySelected(cItem)
           )
         )
       )
       .getOrElse {
         tr(
           td(
-            className := "px-12 py-4 text-gray-800 font-medium",
-            div(
-              "No category selected"
-            )
+            className := "col",
+            "No category selected"
           )
         )
       }
