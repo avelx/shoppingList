@@ -5,6 +5,7 @@ import com.raquo.laminar.api.L.{_, given}
 import com.raquo.laminar.api.features.unitArrows
 import shopping.Controller
 import shopping.models.CategoriesData
+import shopping.models.Category
 import shopping.models.ViewModel
 import shopping.models.ViewModelState.CategoriesView
 
@@ -27,38 +28,50 @@ trait CategoryView(controller: Controller) {
           )
         ),
         tbody(
-          children <-- vm
-            .map(_.items)
-            .map(_.toList.collect { case (cid, v) =>
-              val categoryCount = v.map(_.selected == false).length
-              categoryItem(cid, categoryCount)
-            })
+          children <-- rowsStream(vm)
         )
       )
     )
-
   }
 
-  private def categoryItem(cid: String, count: Int): Node = {
-    CategoriesData.all
-      .find(_.cid == cid)
-      .map(cItem =>
-        tr(
-          td(
-            className := "col",
-            s"($count) - ${cItem.name}",
-            onClick --> controller.onCategorySelected(cItem)
-          )
+  private def rowsStream(vm: Signal[ViewModel]): Signal[List[Node]] = {
+
+    vm.map(_.items)
+      .map(_.toList.collect { case (cid, v) =>
+
+        val category = CategoriesData.all
+          .find(_.cid == cid)
+          .getOrElse(
+            throw new Exception("Category not found")
+          ) // TODO: handle in the graceful way
+
+        // Nested level signal
+        val counts: Signal[Option[String]] = vm.map(
+          _.items
+            .get(cid)
+            .map(_.filter(_.selected == false).length)
+            .map(_.toString)
         )
+        categoryItem(category, counts)
+
+      })
+  }
+
+  private def categoryItem(
+      category: Category,
+      count: Signal[Option[String]]
+  ): Node = {
+    tr(
+      td(
+        className := "col",
+        div(
+          text <-- count.map(
+            _.map(c => s"( $c ) - ${category.name}").getOrElse("0")
+          )
+        ),
+        onClick --> controller.onCategorySelected(category)
       )
-      .getOrElse {
-        tr(
-          td(
-            className := "col",
-            "No category selected"
-          )
-        )
-      }
+    )
   }
 
 }
