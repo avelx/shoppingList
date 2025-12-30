@@ -20,6 +20,9 @@ class MainView(controller: Controller)
     div(
       className := "container text-start",
       div(
+        nbsp
+      ),
+      div(
         className := "row",
         div(
           className := "col",
