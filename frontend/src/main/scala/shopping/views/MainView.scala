@@ -29,43 +29,49 @@ class MainView(controller: Controller)
       div(
         className := "row",
         div(
-          className := "col",
-          button(
-            className <--
-              vm.map(_.state)
-                .map(s =>
-                  s match {
-                    case _ =>
-                      "btn btn-primary"
-                  }
-                ),
-            "Available Items",
+          className := "col-6",
+          div(
+            className := "d-grid gap-2",
+            button(
+              className <--
+                vm.map(_.state)
+                  .map(s =>
+                    s match {
+                      case _ =>
+                        "btn btn-primary btn-lg"
+                    }
+                  ),
+              "Available Items",
+              onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
+                CategoriesView
+              )
+            ),
             onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
               CategoriesView
             )
-          ),
-          onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
-            CategoriesView
           )
         ),
         div(
-          className := "col",
-          button(
-            className <--
-              vm.map(_.state)
-                .map(s =>
-                  s match {
-                    case _ =>
-                      "btn btn-success"
-                  }
-                ),
-            "View Basket",
+          className := "col-6",
+          div(
+            className := "d-grid gap-2",
+            button(
+              className <--
+                vm.map(_.state)
+                  .map(s =>
+                    s match {
+                      case _ =>
+                        "btn btn-success btn-lg"
+                    }
+                  ),
+              "View Basket",
+              onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
+                BasketView
+              )
+            ),
             onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
               BasketView
             )
-          ),
-          onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
-            BasketView
           )
         )
       ),
