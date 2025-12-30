@@ -20,13 +20,22 @@ class MainView(controller: Controller)
     div(
       className := "container text-start",
       div(
+        nbsp
+      ),
+      div(
         className := "row",
         div(
           className := "col",
-          text <-- vm.map(_.pageTitle)
+          p(
+            className := "fs-1 text-center",
+            text <-- vm.map(_.pageTitle)
+          )
         )
       ),
       div(
+        nbsp
+      ),
+      div( // TopLevel::Buttons
         className := "row",
         div(
           className := "col-6",
@@ -74,6 +83,10 @@ class MainView(controller: Controller)
             )
           )
         )
+      ),
+      // Sections
+      div(
+        nbsp
       ),
       div(
         className := "row",
