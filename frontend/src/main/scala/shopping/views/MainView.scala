@@ -11,6 +11,8 @@ import shopping.models.ViewModelState.BasketView
 import shopping.models.ViewModelState.CategoriesView
 import shopping.models.ViewModelState.ItemByCategoryView
 
+import io.github.nguyenyou.webawesome.laminar.*
+
 class MainView(controller: Controller)
     extends BasketView(controller)
     with CategoryView(controller)
@@ -27,6 +29,7 @@ class MainView(controller: Controller)
       ),
       div(
         className := "flex flex-row",
+        Button()("Click me"),
         div(
           className := "basis-1/2 items-center justify-center rounded-lg",
           button(

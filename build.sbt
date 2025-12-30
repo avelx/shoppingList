@@ -69,6 +69,7 @@ lazy val frontend = project
     mainClass := Some("shopping.Frontend"),
     libraryDependencies ++= Seq(
       "com.raquo" %%% "laminar" % laminarVersion,
+      "io.github.nguyenyou" %%% "webawesome-laminar" % "3.0.0",
       "io.bullet" %%% "borer-core" % BorerVersion,
       "io.bullet" %%% "borer-derivation" % BorerVersion,
       "org.scala-js" %%% "scalajs-dom" % "2.8.0", // TODO: do we need to remove this??
