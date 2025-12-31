@@ -16,8 +16,15 @@ class MainView(controller: Controller)
     with CategoryView(controller)
     with ItemView(controller) {
 
+  private def processResponse(response: String): Unit = {
+    println(response)
+  }
+
   def build(vm: Signal[ViewModel]): ReactiveHtmlElement[HTMLDivElement] = {
     div(
+      FetchStream.get("/data/categories.json") --> { responseText =>
+        processResponse(responseText)
+      },
       className := "container text-start",
       div(
         nbsp

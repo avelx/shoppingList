@@ -22,6 +22,7 @@ object Backend extends IOApp {
 
   private val staticFilesExtensions: List[String] = List(".html", ".json")
   private val imagesExtensions: List[String] = List(".png")
+  private val dataFilesExtensions: List[String] = List(".json")
 
   private val staticRoute = HttpRoutes.of[IO] {
     case request @ GET -> Root / path
@@ -53,6 +54,19 @@ object Backend extends IOApp {
       }
   }
 
+  private val dataRoute = HttpRoutes.of[IO] {
+    case request @ GET -> Root / path
+        if dataFilesExtensions.exists(path.endsWith) =>
+      readFileFromResource("data/" + path) match {
+        case Right(content) =>
+          Ok(content).map(
+            _.withContentType(`Content-Type`(MediaType.application.json))
+          ) // Support other content types)
+        case Left(ex) =>
+          NotFound()
+      }
+  }
+
   private val javascript = HttpRoutes.of[IO] {
     case request @ GET -> Root / "main.js" =>
       StaticFile
@@ -69,7 +83,8 @@ object Backend extends IOApp {
     Router(
       "app" -> staticRoute,
       "js" -> javascript,
-      "images" -> imageRoute
+      "images" -> imageRoute,
+      "data" -> dataRoute
     ).orNotFound
 
   private val app: Resource[IO, Server] =

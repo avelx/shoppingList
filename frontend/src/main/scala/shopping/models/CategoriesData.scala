@@ -37,7 +37,7 @@ object CategoriesData {
     "Detergent, paper towels, trash bags, sponges."
   )
 
-  val all: List[Category] = List(
+  var all: List[Category] = List(
     produce,
     meatAndSeadFood,
     bakery,
@@ -46,4 +46,5 @@ object CategoriesData {
     pantry,
     dairy
   )
+
 }
