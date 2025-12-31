@@ -79,7 +79,7 @@ object ViewModel {
       state = CategoriesView,
       categories = List.empty,
       selectedCategory = None,
-      items = ItemsData.defaultItemsByCategory,
+      items = Map.empty,
       basket = Map.empty
     )
 

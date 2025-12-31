@@ -4,7 +4,6 @@ import com.raquo.laminar.api.L.Signal
 import com.raquo.laminar.api.L.{_, given}
 import com.raquo.laminar.api.features.unitArrows
 import shopping.Controller
-import shopping.models.CategoriesData
 import shopping.models.Category
 import shopping.models.ViewModel
 import shopping.models.ViewModelState.CategoriesView

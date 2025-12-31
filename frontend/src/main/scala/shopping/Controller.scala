@@ -2,7 +2,6 @@ package shopping
 
 import com.raquo.laminar.api.L.Var
 import shopping.models.Category
-import shopping.models.ItemsData
 import shopping.models.SelectableItem
 import shopping.models.ViewModel
 import shopping.models.ViewModelState
@@ -65,7 +64,7 @@ class Controller(dynModel: Var[ViewModel]) {
       vm.selectedItems.find(_.item.id == id) match {
         case Some(selectable) =>
           val itemUpdate = selectable.copy(selected = false)
-          val category = ItemsData.getCategoryByItemId(selectable.item.id).get
+          val category = vm.categories.find(c => c.cid == id).get
           val updated = vm.items + (category.cid -> (vm.items
             .get(category.cid)
             .get

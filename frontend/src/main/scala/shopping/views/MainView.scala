@@ -7,15 +7,9 @@ import com.raquo.laminar.nodes.ReactiveHtmlElement
 import io.bullet.borer.Json
 import org.scalajs.dom.HTMLDivElement
 import shopping.Controller
-import shopping.models.CategoriesData
-import shopping.models.Category
-import shopping.models.CategoryWrapper
-import shopping.models.ItemWrapper
-import shopping.models.SelectableItem
-import shopping.models.ViewModel
 import shopping.models.ViewModelState.BasketView
 import shopping.models.ViewModelState.CategoriesView
-import shopping.models.ViewModelState.ItemByCategoryView
+import shopping.models._
 
 import java.nio.charset.StandardCharsets
 
