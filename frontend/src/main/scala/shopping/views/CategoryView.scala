@@ -22,7 +22,7 @@ trait CategoryView(controller: Controller) {
         thead(
           tr(
             th(
-              className := "col",
+              className := "col-12",
               "Category"
             )
           )
@@ -58,10 +58,11 @@ trait CategoryView(controller: Controller) {
   ): Node = {
     tr(
       td(
-        className := "col",
+        className := "col-12",
         div(
           text <-- count.map(
-            _.map(c => s"( $c ) - ${category.name}").getOrElse("0")
+            _.map(c => s"( $c ) - ${category.name}")
+              .getOrElse(s"(N/A) - ${category.name}")
           )
         ),
         onClick --> controller.onCategorySelected(category)
