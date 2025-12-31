@@ -10,6 +10,11 @@ import shopping.models.ViewModelState.ItemByCategoryView
 // Various actions for view model
 class Controller(dynModel: Var[ViewModel]) {
 
+  // Featch response processing:
+  def onCategoriesFetch(loadedCategories: List[Category]): Unit = {
+    dynModel.update(vm => vm.copy(categories = loadedCategories))
+  }
+
   // Main View
   def onViewButtonPressed(state: ViewModelState) = {
     dynModel.update(vm => vm.copy(state = state))

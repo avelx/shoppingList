@@ -36,25 +36,20 @@ trait CategoryView(controller: Controller) {
 
   private def rowsStream(vm: Signal[ViewModel]): Signal[List[Node]] = {
 
-    vm.map(_.items)
-      .map(_.toList.collect { case (cid, v) =>
-
-        val category = CategoriesData.all
-          .find(_.cid == cid)
-          .getOrElse(
-            throw new Exception("Category not found")
-          ) // TODO: handle in the graceful way
-
-        // Nested level signal
-        val counts: Signal[Option[String]] = vm.map(
-          _.items
-            .get(cid)
-            .map(_.filter(_.selected == false).length)
-            .map(_.toString)
+    vm.map(_.categories)
+      .map(_.toList)
+      .map { categories =>
+        categories.map(category =>
+          // Nested level signal
+          val counts: Signal[Option[String]] = vm.map(
+            _.items
+              .get(category.cid)
+              .map(_.filter(_.selected == false).length)
+              .map(_.toString)
+          )
+          categoryItem(category, counts)
         )
-        categoryItem(category, counts)
-
-      })
+      }
   }
 
   private def categoryItem(

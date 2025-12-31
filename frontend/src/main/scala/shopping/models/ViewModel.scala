@@ -14,6 +14,8 @@ import java.nio.charset.StandardCharsets
 import scala.util.Try
 
 final case class Category(cid: String, name: String, desc: String) derives Codec
+final case class CategoryWrapper(data: List[Category]) derives Codec
+
 final case class Item(id: String, name: String) derives Codec
 final case class SelectableItem(
     item: Item,
@@ -28,6 +30,7 @@ enum ViewModelState:
 
 final case class ViewModel(
     state: ViewModelState,
+    categories: List[Category],
     selectedCategory: Option[Category],
     items: Map[String, List[SelectableItem]],
     basket: Map[String, SelectableItem]
@@ -64,8 +67,6 @@ final case class ViewModel(
       "Basket Items"
   }
 
-  val categories = CategoriesData.all
-
 }
 
 object ViewModel {
@@ -74,6 +75,7 @@ object ViewModel {
   val defaultViewModel =
     ViewModel(
       state = CategoriesView,
+      categories = List.empty,
       selectedCategory = None,
       items = ItemsData.defaultItemsByCategory,
       basket = Map.empty
@@ -93,4 +95,5 @@ object ViewModel {
           .valueTry,
       default = Try(defaultViewModel)
     )
+
 }

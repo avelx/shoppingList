@@ -4,26 +4,43 @@ import com.raquo.laminar.api.L.Signal
 import com.raquo.laminar.api.L.{_, given}
 import com.raquo.laminar.api.features.unitArrows
 import com.raquo.laminar.nodes.ReactiveHtmlElement
+import io.bullet.borer.Json
 import org.scalajs.dom.HTMLDivElement
 import shopping.Controller
+import shopping.models.CategoriesData
+import shopping.models.Category
+import shopping.models.CategoryWrapper
 import shopping.models.ViewModel
 import shopping.models.ViewModelState.BasketView
 import shopping.models.ViewModelState.CategoriesView
 import shopping.models.ViewModelState.ItemByCategoryView
+
+import java.nio.charset.StandardCharsets
 
 class MainView(controller: Controller)
     extends BasketView(controller)
     with CategoryView(controller)
     with ItemView(controller) {
 
-  private def processResponse(response: String): Unit = {
+  // TODO: add Json resource compile time validation logic
+  private def processResponse(response: String): List[Category] = {
+    val res = Json
+      .decode(response.getBytes(StandardCharsets.UTF_8))
+      .to[CategoryWrapper]
+      .valueTry
+      .toOption
+      .map(_.data)
+      .getOrElse(List.empty)
     println(response)
+    println(res)
+    res
   }
 
   def build(vm: Signal[ViewModel]): ReactiveHtmlElement[HTMLDivElement] = {
     div(
       FetchStream.get("/data/categories.json") --> { responseText =>
-        processResponse(responseText)
+        val categories = processResponse(responseText)
+        controller.onCategoriesFetch(categories)
       },
       className := "container text-start",
       div(

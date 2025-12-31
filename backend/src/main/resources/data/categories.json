@@ -1,11 +1,11 @@
 {
-  "categories": [
-    { "cid": "2", "name": "Meat & Seafood", "desc": "Chicken, beef, fish, shrimp, deli meats" },
-    { "cid": "3", "name": "Bakery", "desc": "Bread, bagels, muffins, tortillas, cakes" },
-    { "cid": "4", "name": "Beverages", "desc": "Coffee, tea, juice, soda, water, beer, wine" },
-    { "cid": "5", "name": "Frozen Foods", "desc": "Ice cream, frozen vegetables, pizzas, ready meals." },
-    { "cid": "6", "name": "Pantry/Dry Goods", "desc": "Pasta, rice, cereal, flour, sugar, spices, canned goods, oils, sauces." },
-    { "cid": "11", "name": "Dairy & Refrigerated", "desc": "Milk, cheese, yogurt, butter, eggs, prepared meals." },
-    { "cid": "15", "name": "Household/Cleaning", "desc": "Detergent, paper towels, trash bags, sponges."}
+  "data": [
+    { "cid": "2", "name": "2 Meat and Seafood", "desc": "Chicken, beef, fish, shrimp, deli meats" },
+    { "cid": "3", "name": "2 Bakery", "desc": "Bread, bagels, muffins, tortillas, cakes" },
+    { "cid": "4", "name": "2 Beverages", "desc": "Coffee, tea, juice, soda, water, beer, wine" },
+    { "cid": "5", "name": "2 Frozen Foods", "desc": "Ice cream, frozen vegetables, pizzas, ready meals." },
+    { "cid": "6", "name": "2 Pantry/Dry Goods", "desc": "Pasta, rice, cereal, flour, sugar, spices, canned goods, oils, sauces." },
+    { "cid": "11", "name": "2 Dairy & Refrigerated", "desc": "Milk, cheese, yogurt, butter, eggs, prepared meals." },
+    { "cid": "15", "name": "2 Household/Cleaning", "desc": "Detergent, paper towels, trash bags, sponges."}
   ]
 }
