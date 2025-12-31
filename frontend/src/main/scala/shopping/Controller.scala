@@ -3,6 +3,7 @@ package shopping
 import com.raquo.laminar.api.L.Var
 import shopping.models.Category
 import shopping.models.ItemsData
+import shopping.models.SelectableItem
 import shopping.models.ViewModel
 import shopping.models.ViewModelState
 import shopping.models.ViewModelState.ItemByCategoryView
@@ -10,9 +11,13 @@ import shopping.models.ViewModelState.ItemByCategoryView
 // Various actions for view model
 class Controller(dynModel: Var[ViewModel]) {
 
-  // Featch response processing:
+  // Fetch response processing:
   def onCategoriesFetch(loadedCategories: List[Category]): Unit = {
     dynModel.update(vm => vm.copy(categories = loadedCategories))
+  }
+
+  def onItemsFetch(loadedItems: Map[String, List[SelectableItem]]): Unit = {
+    dynModel.update(vm => vm.copy(items = loadedItems))
   }
 
   // Main View

@@ -15,6 +15,8 @@ import scala.util.Try
 
 final case class Category(cid: String, name: String, desc: String) derives Codec
 final case class CategoryWrapper(data: List[Category]) derives Codec
+final case class ItemWrapper(data: Map[String, List[SelectableItem]])
+    derives Codec
 
 final case class Item(id: String, name: String) derives Codec
 final case class SelectableItem(

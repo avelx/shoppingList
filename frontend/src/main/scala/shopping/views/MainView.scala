@@ -10,6 +10,8 @@ import shopping.Controller
 import shopping.models.CategoriesData
 import shopping.models.Category
 import shopping.models.CategoryWrapper
+import shopping.models.ItemWrapper
+import shopping.models.SelectableItem
 import shopping.models.ViewModel
 import shopping.models.ViewModelState.BasketView
 import shopping.models.ViewModelState.CategoriesView
@@ -23,24 +25,35 @@ class MainView(controller: Controller)
     with ItemView(controller) {
 
   // TODO: add Json resource compile time validation logic
-  private def processResponse(response: String): List[Category] = {
-    val res = Json
+  private def loadCategories(response: String): List[Category] = {
+    Json
       .decode(response.getBytes(StandardCharsets.UTF_8))
       .to[CategoryWrapper]
       .valueTry
       .toOption
       .map(_.data)
       .getOrElse(List.empty)
-    println(response)
-    println(res)
-    res
+  }
+
+  private def loadItems(response: String): Map[String, List[SelectableItem]] = {
+    Json
+      .decode(response.getBytes(StandardCharsets.UTF_8))
+      .to[ItemWrapper]
+      .valueTry
+      .toOption
+      .map(_.data)
+      .getOrElse(Map.empty)
   }
 
   def build(vm: Signal[ViewModel]): ReactiveHtmlElement[HTMLDivElement] = {
     div(
       FetchStream.get("/data/categories.json") --> { responseText =>
-        val categories = processResponse(responseText)
+        val categories = loadCategories(responseText)
         controller.onCategoriesFetch(categories)
+      },
+      FetchStream.get("/data/items.json") --> { responseText =>
+        val items = loadItems(responseText)
+        controller.onItemsFetch(items)
       },
       className := "container text-start",
       div(
