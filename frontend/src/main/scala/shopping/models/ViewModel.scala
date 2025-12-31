@@ -74,7 +74,7 @@ final case class ViewModel(
 object ViewModel {
   given viewModelStateCodec: Codec[ViewModelState] = deriveCodec
 
-  val defaultViewModel =
+  private val defaultViewModel =
     ViewModel(
       state = CategoriesView,
       categories = List.empty,

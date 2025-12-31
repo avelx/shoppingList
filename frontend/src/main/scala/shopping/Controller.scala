@@ -64,12 +64,22 @@ class Controller(dynModel: Var[ViewModel]) {
       vm.selectedItems.find(_.item.id == id) match {
         case Some(selectable) =>
           val itemUpdate = selectable.copy(selected = false)
-          val category = vm.categories.find(c => c.cid == id).get
-          val updated = vm.items + (category.cid -> (vm.items
-            .get(category.cid)
-            .get
-            .filterNot(e => e.item.id == id) :+ itemUpdate))
-          vm.copy(items = updated)
+          // Fina categoryId
+          val cid = vm.items
+            .find(p => p._2.find(e => e.item.id == id).isDefined)
+            .map(_._1)
+            .getOrElse("")
+
+          vm.categories
+            .find(c => c.cid == cid)
+            .map(category =>
+              val updated = vm.items + (category.cid -> (vm.items
+                .get(category.cid)
+                .get
+                .filterNot(e => e.item.id == id) :+ itemUpdate))
+              vm.copy(items = updated)
+            )
+            .getOrElse(vm)
         case None =>
           vm
       }
