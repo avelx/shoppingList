@@ -4,7 +4,6 @@ import com.raquo.laminar.api.L.Signal
 import com.raquo.laminar.api.L.{_, given}
 import com.raquo.laminar.api.features.unitArrows
 import shopping.Controller
-import shopping.models.CategoriesData
 import shopping.models.Category
 import shopping.models.ViewModel
 import shopping.models.ViewModelState.CategoriesView
@@ -22,7 +21,7 @@ trait CategoryView(controller: Controller) {
         thead(
           tr(
             th(
-              className := "col",
+              className := "col-12",
               "Category"
             )
           )
@@ -36,25 +35,20 @@ trait CategoryView(controller: Controller) {
 
   private def rowsStream(vm: Signal[ViewModel]): Signal[List[Node]] = {
 
-    vm.map(_.items)
-      .map(_.toList.collect { case (cid, v) =>
-
-        val category = CategoriesData.all
-          .find(_.cid == cid)
-          .getOrElse(
-            throw new Exception("Category not found")
-          ) // TODO: handle in the graceful way
-
-        // Nested level signal
-        val counts: Signal[Option[String]] = vm.map(
-          _.items
-            .get(cid)
-            .map(_.filter(_.selected == false).length)
-            .map(_.toString)
+    vm.map(_.categories)
+      .map(_.toList)
+      .map { categories =>
+        categories.map(category =>
+          // Nested level signal
+          val counts: Signal[Option[String]] = vm.map(
+            _.items
+              .get(category.cid)
+              .map(_.filter(_.selected == false).length)
+              .map(_.toString)
+          )
+          categoryItem(category, counts)
         )
-        categoryItem(category, counts)
-
-      })
+      }
   }
 
   private def categoryItem(
@@ -63,10 +57,11 @@ trait CategoryView(controller: Controller) {
   ): Node = {
     tr(
       td(
-        className := "col",
+        className := "col-12",
         div(
           text <-- count.map(
-            _.map(c => s"( $c ) - ${category.name}").getOrElse("0")
+            _.map(c => s"( $c ) - ${category.name}")
+              .getOrElse(s"(N/A) - ${category.name}")
           )
         ),
         onClick --> controller.onCategorySelected(category)

@@ -1,0 +1,214 @@
+{
+  "data": {
+    "1": [
+      {
+        "item": {
+          "id": "1",
+          "name": "Apples"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "2",
+          "name": "Berries"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "7",
+          "name": "Bananas"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "5",
+          "name": "Mineral Water"
+        },
+        "selected": false
+      }
+    ],
+    "4": [
+      {
+        "item": {
+          "id": "500",
+          "name": "Beer"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "501",
+          "name": "Wine"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "502",
+          "name": "Coffee"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "553",
+          "name": "Black Tea"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "554",
+          "name": "Green Tea"
+        },
+        "selected": false
+      }
+    ],
+    "5": [
+      {
+        "item": {
+          "id": "401",
+          "name": "Frozen Fish"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "402",
+          "name": "Frozen Chicken"
+        },
+        "selected": false
+      }
+    ],
+    "6": [
+      {
+        "item": {
+          "id": "700",
+          "name": "Pasta"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "701",
+          "name": "Rice"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "702",
+          "name": "Cereal"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "703",
+          "name": "Sugar"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "704",
+          "name": "Oils"
+        },
+        "selected": false
+      }
+    ],
+    "11": [
+      {
+        "item": {
+          "id": "200",
+          "name": "Milk"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "202",
+          "name": "Yogurt"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "203",
+          "name": "Butter"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "204",
+          "name": "Eggs"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "205",
+          "name": "Apple Juice"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "210",
+          "name": "Orange Juice"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "201",
+          "name": "Cheese"
+        },
+        "selected": false
+      }
+    ],
+    "15": [
+      {
+        "item": {
+          "id": "1001",
+          "name": "Fairy: washing liquid"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "1002",
+          "name": "Toiler paper"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "1003",
+          "name": "Bin bags"
+        },
+        "selected": false
+      }
+    ],
+    "2": [
+      {
+        "item": {
+          "id": "2001",
+          "name": "Fish: Salmon"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "2002",
+          "name": "Fish: Sea bass"
+        },
+        "selected": false
+      }
+    ]
+  }
+}
