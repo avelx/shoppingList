@@ -170,6 +170,45 @@
         },
         "selected": true
       }
+    ],
+    "15": [
+      {
+        "item": {
+          "id": "1001",
+          "name": "Fairy: washing liquid"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "1002",
+          "name": "Toiler paper"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "1003",
+          "name": "Bin bags"
+        },
+        "selected": false
+      }
+    ],
+    "2": [
+      {
+        "item": {
+          "id": "2001",
+          "name": "Fish: Salmon"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "2002",
+          "name": "Fish: Sea bass"
+        },
+        "selected": false
+      }
     ]
   }
 }
