@@ -5,6 +5,6 @@
     { "cid": "5", "name": "Frozen Foods", "desc": "Ice cream, frozen vegetables, pizzas, ready meals." },
     { "cid": "6", "name": "Pantry/Dry Goods", "desc": "Pasta, rice, cereal, flour, sugar, spices, canned goods, oils, sauces." },
     { "cid": "11", "name": "Dairy & Refrigerated", "desc": "Milk, cheese, yogurt, butter, eggs, prepared meals." },
-    { "cid": "15", "name": "Household/Cleaning", "desc": "Detergent, paper towels, trash bags, sponges."},
+    { "cid": "15", "name": "Household/Cleaning", "desc": "Detergent, paper towels, trash bags, sponges."}
   ]
 }
