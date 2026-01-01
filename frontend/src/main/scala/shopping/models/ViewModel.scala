@@ -35,7 +35,7 @@ final case class ViewModel(
     categories: List[Category],
     selectedCategory: Option[Category],
     items: Map[String, List[SelectableItem]],
-    basket: Map[String, SelectableItem]
+    basket: List[SelectableItem]
 ) derives Codec {
 
   val selectedCategoryItems: List[SelectableItem] = {
@@ -52,18 +52,12 @@ final case class ViewModel(
 
   }
 
-  val selectedItems: List[SelectableItem] =
-    items.values.flatten.toList
-      .filter(_.selected)
-      .zipWithIndex
-      .map(e => e._1.copy(num = Some(e._2 + 1)))
-
   val pageTitle = state match {
     case CategoriesView =>
       "Category Selection"
     case ItemByCategoryView =>
       "Select Item"
-    case BasketView if selectedItems.length == 0 =>
+    case BasketView if basket.length == 0 =>
       "Basket Items:: No Items Selected"
     case BasketView =>
       "Basket Items"
@@ -80,7 +74,7 @@ object ViewModel {
       categories = List.empty,
       selectedCategory = None,
       items = Map.empty,
-      basket = Map.empty
+      basket = List.empty
     )
 
   val viewModelVar = WebStorageVar
