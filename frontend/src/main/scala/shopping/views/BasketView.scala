@@ -33,7 +33,7 @@ trait BasketView(controller: Controller) {
         tbody(
           className := "",
           children <-- vm
-            .map(_.selectedItems)
+            .map(_.basket)
             .map(_.map(basketItem(_)))
         )
       )
@@ -44,7 +44,7 @@ trait BasketView(controller: Controller) {
     tr(
       td(
         className := "col-11",
-        s"${selectable.num.get.toString} :: ${selectable.item.name}"
+        s"${selectable.item.name}"
       ),
       td(
         className := "col",
