@@ -144,6 +144,13 @@
       },
       {
         "item": {
+          "id": "231",
+          "name": "Salted::Butter"
+        },
+        "selected": false
+      },
+      {
+        "item": {
           "id": "204",
           "name": "Eggs"
         },
