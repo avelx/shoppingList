@@ -41,7 +41,14 @@
       {
         "item": {
           "id": "501",
-          "name": "Wine"
+          "name": "Red::Wine"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "571",
+          "name": "White::Wine"
         },
         "selected": false
       },
