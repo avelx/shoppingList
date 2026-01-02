@@ -209,6 +209,45 @@
         },
         "selected": false
       }
+    ],
+    "25": [
+      {
+        "item": {
+          "id": "5001",
+          "name": "Bread"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "5012",
+          "name": "Ginger: Cookies"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "5020",
+          "name": "Chocolate: Cookies"
+        },
+        "selected": false
+      }
+    ],
+    "30": [
+      {
+        "item": {
+          "id": "6001",
+          "name": "Sparkling:: mineral water"
+        },
+        "selected": false
+      },
+      {
+        "item": {
+          "id": "6012",
+          "name": "Distilled water"
+        },
+        "selected": false
+      }
     ]
   }
 }
