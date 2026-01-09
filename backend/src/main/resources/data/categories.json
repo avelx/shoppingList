@@ -7,6 +7,7 @@
     { "cid": "11", "name": "Dairy & Refrigerated", "desc": "Milk, cheese, yogurt, butter, eggs, prepared meals." },
     { "cid": "15", "name": "Household/Cleaning", "desc": "Detergent, paper towels, trash bags, sponges."},
     { "cid": "25", "name": "Snacks :: Bakery / Bread", "desc": "Bakery/Bread"},
-    { "cid": "30", "name": "Water", "desc": "Water and relevant drinks"}
+    { "cid": "30", "name": "Water", "desc": "Water and relevant drinks"},
+    { "cid": "41", "name": "Health, Beauty & Personal Care", "desc": "Health, Beauty & Personal Care "}
   ]
 }
