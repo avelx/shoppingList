@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets
 
 class DataService {
 
-  def loadCategories(response: String): List[Category] = {
+  def parseResponseToCategories(response: String): List[Category] = {
     Json
       .decode(response.getBytes(StandardCharsets.UTF_8))
       .to[CategoryWrapper]
@@ -20,7 +20,9 @@ class DataService {
       .getOrElse(List.empty)
   }
 
-  def loadItems(response: String): Map[String, List[SelectableItem]] = {
+  def parseResponseToItems(
+      response: String
+  ): Map[String, List[SelectableItem]] = {
     Json
       .decode(response.getBytes(StandardCharsets.UTF_8))
       .to[ItemWrapper]

@@ -1,12 +1,14 @@
 package shopping.views
 
-import com.raquo.laminar.api.L.{Signal, *, given}
+import com.raquo.laminar.api.L.Signal
+import com.raquo.laminar.api.L.{_, given}
 import com.raquo.laminar.api.features.unitArrows
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import org.scalajs.dom.HTMLDivElement
 import shopping.Controller
-import shopping.models.*
-import shopping.models.ViewModelState.{BasketView, CategoriesView}
+import shopping.models.ViewModelState.BasketView
+import shopping.models.ViewModelState.CategoriesView
+import shopping.models._
 
 class MainView(ctrl: Controller)
     extends BasketView(ctrl)

@@ -1,6 +1,8 @@
 package shopping
 
+import com.raquo.airstream.web.FetchStream
 import com.raquo.laminar.api.L.Var
+import com.raquo.laminar.api.L.enrichSource
 import shopping.models.Category
 import shopping.models.SelectableItem
 import shopping.models.ViewModel
@@ -13,12 +15,16 @@ class Controller(dynModel: Var[ViewModel], service: DataService) {
 
   // Fetchers
   val fetchCategories: String => Unit = { responseText =>
-    val categories = service.loadCategories(responseText)
+    val categories = service.parseResponseToCategories(responseText)
     dynModel.update(vm => vm.copy(categories = categories))
   }
 
+  val fetchCategoriesEvent = {
+    FetchStream.get("/data/categories.json") --> fetchCategories
+  }
+
   val fetchItems: String => Unit = { responseText =>
-    val items = service.loadItems(responseText)
+    val items = service.parseResponseToItems(responseText)
     dynModel.update(vm => vm.copy(items = items))
   }
 
