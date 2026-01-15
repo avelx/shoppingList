@@ -7,6 +7,7 @@ import org.scalajs.dom.document
 import shopping.Controller
 import shopping.models.ViewModel
 import shopping.models.ViewModel.viewModelVar
+import shopping.services.DataService
 import shopping.views.MainView
 
 // Building Scala.js application
@@ -20,7 +21,8 @@ object FrontendApp {
   }
 
   def setupUI(root: Element): Unit = {
-    val controller = Controller(dynModel = viewModelVar)
+    val dataService = DataService()
+    val controller = Controller(dynModel = viewModelVar, dataService)
     val view = MainView(controller)
     val rootElement: Div = view.build(vm = viewModelVar.signal)
     render(root, rootElement)

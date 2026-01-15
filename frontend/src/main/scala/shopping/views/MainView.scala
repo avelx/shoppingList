@@ -1,54 +1,24 @@
 package shopping.views
 
-import com.raquo.laminar.api.L.Signal
-import com.raquo.laminar.api.L.{_, given}
+import com.raquo.laminar.api.L.{Signal, *, given}
 import com.raquo.laminar.api.features.unitArrows
 import com.raquo.laminar.nodes.ReactiveHtmlElement
-import io.bullet.borer.Json
 import org.scalajs.dom.HTMLDivElement
 import shopping.Controller
-import shopping.models.ViewModelState.BasketView
-import shopping.models.ViewModelState.CategoriesView
-import shopping.models._
+import shopping.models.*
+import shopping.models.ViewModelState.{BasketView, CategoriesView}
 
-import java.nio.charset.StandardCharsets
-
-class MainView(controller: Controller)
-    extends BasketView(controller)
-    with CategoryView(controller)
-    with ItemView(controller) {
+class MainView(ctrl: Controller)
+    extends BasketView(ctrl)
+    with CategoryView(ctrl)
+    with ItemView(ctrl) {
 
   // TODO: add Json resource compile time validation logic
-  private def loadCategories(response: String): List[Category] = {
-    Json
-      .decode(response.getBytes(StandardCharsets.UTF_8))
-      .to[CategoryWrapper]
-      .valueTry
-      .toOption
-      .map(_.data)
-      .getOrElse(List.empty)
-  }
-
-  private def loadItems(response: String): Map[String, List[SelectableItem]] = {
-    Json
-      .decode(response.getBytes(StandardCharsets.UTF_8))
-      .to[ItemWrapper]
-      .valueTry
-      .toOption
-      .map(_.data)
-      .getOrElse(Map.empty)
-  }
 
   def build(vm: Signal[ViewModel]): ReactiveHtmlElement[HTMLDivElement] = {
     div(
-      FetchStream.get("/data/categories.json") --> { responseText =>
-        val categories = loadCategories(responseText)
-        controller.onCategoriesFetch(categories)
-      },
-      FetchStream.get("/data/items.json") --> { responseText =>
-        val items = loadItems(responseText)
-        controller.onItemsFetch(items)
-      },
+      FetchStream.get("/data/categories.json") --> ctrl.fetchCategories,
+      FetchStream.get("/data/items.json") --> ctrl.fetchItems,
       className := "container text-start",
       div(
         nbsp
@@ -82,11 +52,11 @@ class MainView(controller: Controller)
                     }
                   ),
               "Available Items",
-              onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
+              onClick.compose(_.delay(500)) --> ctrl.onViewButtonPressed(
                 CategoriesView
               )
             ),
-            onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
+            onClick.compose(_.delay(500)) --> ctrl.onViewButtonPressed(
               CategoriesView
             )
           )
@@ -105,11 +75,11 @@ class MainView(controller: Controller)
                     }
                   ),
               "View Basket",
-              onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
+              onClick.compose(_.delay(500)) --> ctrl.onViewButtonPressed(
                 BasketView
               )
             ),
-            onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
+            onClick.compose(_.delay(500)) --> ctrl.onViewButtonPressed(
               BasketView
             )
           )

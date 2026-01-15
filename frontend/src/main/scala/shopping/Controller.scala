@@ -6,17 +6,20 @@ import shopping.models.SelectableItem
 import shopping.models.ViewModel
 import shopping.models.ViewModelState
 import shopping.models.ViewModelState.ItemByCategoryView
+import shopping.services.DataService
 
 // Various actions for view model
-class Controller(dynModel: Var[ViewModel]) {
+class Controller(dynModel: Var[ViewModel], service: DataService) {
 
-  // Fetch response processing:
-  def onCategoriesFetch(loadedCategories: List[Category]): Unit = {
-    dynModel.update(vm => vm.copy(categories = loadedCategories))
+  // Fetchers
+  val fetchCategories: String => Unit = { responseText =>
+    val categories = service.loadCategories(responseText)
+    dynModel.update(vm => vm.copy(categories = categories))
   }
 
-  def onItemsFetch(loadedItems: Map[String, List[SelectableItem]]): Unit = {
-    dynModel.update(vm => vm.copy(items = loadedItems))
+  val fetchItems: String => Unit = { responseText =>
+    val items = service.loadItems(responseText)
+    dynModel.update(vm => vm.copy(items = items))
   }
 
   // Main View
