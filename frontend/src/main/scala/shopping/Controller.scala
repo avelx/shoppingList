@@ -1,6 +1,8 @@
 package shopping
 
+import com.raquo.airstream.web.FetchStream
 import com.raquo.laminar.api.L.Var
+import com.raquo.laminar.api.L.enrichSource
 import shopping.models.Category
 import shopping.models.SelectableItem
 import shopping.models.ViewModel
@@ -8,15 +10,26 @@ import shopping.models.ViewModelState
 import shopping.models.ViewModelState.ItemByCategoryView
 
 // Various actions for view model
-class Controller(dynModel: Var[ViewModel]) {
+class Controller(dynModel: Var[ViewModel], service: DataService) {
 
-  // Fetch response processing:
-  def onCategoriesFetch(loadedCategories: List[Category]): Unit = {
-    dynModel.update(vm => vm.copy(categories = loadedCategories))
+  def loadData() = {
+    println("Load data ...")
+    fetchCategories()
+    fetchItems()
   }
 
-  def onItemsFetch(loadedItems: Map[String, List[SelectableItem]]): Unit = {
-    dynModel.update(vm => vm.copy(items = loadedItems))
+  private def fetchCategories() = {
+    FetchStream.get("/data/categories.json") --> { responseText =>
+      val categories = service.parseResponseToCategories(responseText)
+      dynModel.update(vm => vm.copy(categories = categories))
+    }
+  }
+
+  private def fetchItems(): Unit = {
+    FetchStream.get("/data/items.json") --> { responseText =>
+      val items = service.parseResponseToItems(responseText)
+      dynModel.update(vm => vm.copy(items = items))
+    }
   }
 
   // Main View

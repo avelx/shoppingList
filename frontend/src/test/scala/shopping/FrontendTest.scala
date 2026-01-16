@@ -1,33 +1,41 @@
 package shopping
 
-import com.raquo.laminar.api.L.{_, given}
+import com.raquo.laminar.api.L.given
 import org.scalajs.dom
 import org.scalajs.dom.document
-import org.scalajs.dom.ext._
+import shopping.models.ViewModel.viewModelVar
+import shopping.views.MainView
 import utest._
 
 import scala.runtime.stdLibPatches.Predef.assert
-import scala.scalajs.js
 
 // ::Simple test example::
 object FrontendTest extends TestSuite {
 
+  val dataService = DataService()
+  val controller = Controller(dynModel = viewModelVar, dataService)
+  val view: MainView = MainView(controller)
+  val app = document.createElement("div")
+  document.body.appendChild(app)
+
   // https://laminar.dev/documentation#waiting-for-the-dom-to-load
-  // Waiting for the DOM to load
-  windowEvents(_.onLoad).foreach { _ =>
-    lazy val appContainer = dom.document.getElementById("mount")
-    FrontendApp.setupUI(appContainer)
-  }(unsafeWindowOwner)
+  document.addEventListener(
+    "DOMContentLoaded",
+    { (e: dom.Event) =>
+      FrontendApp.setupUI(app, controller, view)
+    }
+  )
 
   val tests = Tests {
 
-    test("HelloWorld") {
+    test("Static element check") {
       assert(
-        document != null
-//          .querySelectorAll("div")
-//          .count(x => x.id.isEmpty) == 1
+        {
+          document.querySelectorAll("div").length > 0
+        }
       )
     }
+
   }
 
 }
