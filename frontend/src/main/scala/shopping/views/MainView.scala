@@ -4,6 +4,7 @@ import com.raquo.laminar.api.L.Signal
 import com.raquo.laminar.api.L.{_, given}
 import com.raquo.laminar.api.features.unitArrows
 import com.raquo.laminar.nodes.ReactiveHtmlElement
+import org.scalajs.dom
 import org.scalajs.dom.HTMLDivElement
 import shopping.Controller
 import shopping.models.ViewModelState.BasketView
@@ -15,12 +16,8 @@ class MainView(ctrl: Controller)
     with CategoryView(ctrl)
     with ItemView(ctrl) {
 
-  // TODO: add Json resource compile time validation logic
-
   def build(vm: Signal[ViewModel]): ReactiveHtmlElement[HTMLDivElement] = {
     div(
-      FetchStream.get("/data/categories.json") --> ctrl.fetchCategories,
-      FetchStream.get("/data/items.json") --> ctrl.fetchItems,
       className := "container text-start",
       div(
         nbsp

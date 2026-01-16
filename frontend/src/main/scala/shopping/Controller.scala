@@ -13,19 +13,24 @@ import shopping.services.DataService
 // Various actions for view model
 class Controller(dynModel: Var[ViewModel], service: DataService) {
 
-  // Fetchers
-  val fetchCategories: String => Unit = { responseText =>
-    val categories = service.parseResponseToCategories(responseText)
-    dynModel.update(vm => vm.copy(categories = categories))
+  def loadData() = {
+    println("Load data ...")
+    fetchCategories()
+    fetchItems()
   }
 
-  val fetchCategoriesEvent = {
-    FetchStream.get("/data/categories.json") --> fetchCategories
+  private def fetchCategories() = {
+    FetchStream.get("/data/categories.json") --> { responseText =>
+      val categories = service.parseResponseToCategories(responseText)
+      dynModel.update(vm => vm.copy(categories = categories))
+    }
   }
 
-  val fetchItems: String => Unit = { responseText =>
-    val items = service.parseResponseToItems(responseText)
-    dynModel.update(vm => vm.copy(items = items))
+  def fetchItems(): Unit = {
+    FetchStream.get("/data/items.json") --> { responseText =>
+      val items = service.parseResponseToItems(responseText)
+      dynModel.update(vm => vm.copy(items = items))
+    }
   }
 
   // Main View
