@@ -4,7 +4,6 @@ import com.raquo.laminar.api.L.given
 import org.scalajs.dom
 import org.scalajs.dom.document
 import shopping.models.ViewModel.viewModelVar
-import shopping.services.DataService
 import shopping.views.MainView
 import utest._
 

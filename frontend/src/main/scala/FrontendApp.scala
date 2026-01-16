@@ -6,7 +6,6 @@ import org.scalajs.dom.Element
 import org.scalajs.dom.document
 import shopping.models.ViewModel
 import shopping.models.ViewModel.viewModelVar
-import shopping.services.DataService
 import shopping.views.MainView
 
 // Building Scala.js application

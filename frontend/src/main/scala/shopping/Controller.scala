@@ -8,7 +8,6 @@ import shopping.models.SelectableItem
 import shopping.models.ViewModel
 import shopping.models.ViewModelState
 import shopping.models.ViewModelState.ItemByCategoryView
-import shopping.services.DataService
 
 // Various actions for view model
 class Controller(dynModel: Var[ViewModel], service: DataService) {
@@ -26,7 +25,7 @@ class Controller(dynModel: Var[ViewModel], service: DataService) {
     }
   }
 
-  def fetchItems(): Unit = {
+  private def fetchItems(): Unit = {
     FetchStream.get("/data/items.json") --> { responseText =>
       val items = service.parseResponseToItems(responseText)
       dynModel.update(vm => vm.copy(items = items))

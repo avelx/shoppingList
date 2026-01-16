@@ -1,4 +1,4 @@
-package shopping.services
+package shopping
 
 import io.bullet.borer.Json
 import shopping.models.Category
