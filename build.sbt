@@ -67,16 +67,13 @@ lazy val frontend = project
   .settings(
     name := """shopping-frontend""",
     mainClass := Some("shopping.Frontend"),
+    scalacOptions ++= Seq("-Xmax-inlines", "128"),
     libraryDependencies ++= Seq(
       "com.raquo" %%% "laminar" % laminarVersion,
       "io.bullet" %%% "borer-core" % BorerVersion,
       "io.bullet" %%% "borer-derivation" % BorerVersion,
       "org.scala-js" %%% "scalajs-dom" % "2.8.0", // TODO: do we need to remove this??
-      "com.lihaoyi" %%% "utest" % "0.9.2" % "test",
-      "dev.guillaumebogard" %%% "scalajs-idb-core" % "0.2.0"
-      // Optional
-      // "dev.guillaumebogard" %%% "scalajs-idb-cats-effect" % "0.2.0",
-      // "dev.guillaumebogard" %%% "scalajs-idb-java-time" % "0.2.0"
+      "com.lihaoyi" %%% "utest" % "0.9.2" % "test"
     ),
     scalaJSUseMainModuleInitializer := true,
     jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv(),

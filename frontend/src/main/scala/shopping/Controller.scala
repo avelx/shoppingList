@@ -102,5 +102,4 @@ class Controller(dynModel: Var[ViewModel]) {
     dynModel.now().basket.foreach(e => onUnSelectedInBasket(e.item.id))
   }
 
-
 }
