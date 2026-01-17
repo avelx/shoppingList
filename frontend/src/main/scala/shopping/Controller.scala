@@ -129,7 +129,8 @@ class Controller(dynModel: Var[ViewModel]) {
       val store = tx.objectStore("ShoppingDb")
       val index = store.index("ItemsIndex")
 
-      val entryId = js.Date.now().toString // This not date presented as a String!!!
+      val entryId =
+        js.Date.now().toString // This not date presented as a String!!!
       dynModel
         .now()
         .basket
