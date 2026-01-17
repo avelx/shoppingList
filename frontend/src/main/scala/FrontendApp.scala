@@ -4,6 +4,7 @@ import com.raquo.laminar.api.L.{_, given}
 import org.scalajs.dom
 import org.scalajs.dom.Element
 import org.scalajs.dom.document
+import org.scalajs.dom.window
 import shopping.Controller
 import shopping.models.ViewModel
 import shopping.models.ViewModel.viewModelVar
@@ -13,6 +14,7 @@ import shopping.views.MainView
 object FrontendApp {
 
   def main(args: Array[String]): Unit = {
+
     windowEvents(_.onLoad).foreach { _ =>
       lazy val appContainer: Element = dom.document.getElementById("mount")
       setupUI(appContainer)

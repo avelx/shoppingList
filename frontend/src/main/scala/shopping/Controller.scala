@@ -1,11 +1,22 @@
 package shopping
 
 import com.raquo.laminar.api.L.Var
+import org.scalajs.dom.Event
+import org.scalajs.dom.IDBCreateObjectStoreOptions
+import org.scalajs.dom.IDBDatabase
+import org.scalajs.dom.IDBEvent
+import org.scalajs.dom.IDBTransactionMode
+import org.scalajs.dom.window
 import shopping.models.Category
 import shopping.models.SelectableItem
 import shopping.models.ViewModel
 import shopping.models.ViewModelState
 import shopping.models.ViewModelState.ItemByCategoryView
+
+import java.util.UUID
+import java.util.UUID.randomUUID
+import scala.scalajs.js
+import scala.util.Random
 
 // Various actions for view model
 class Controller(dynModel: Var[ViewModel]) {
@@ -93,6 +104,71 @@ class Controller(dynModel: Var[ViewModel]) {
           vm
       }
     )
+  }
+
+  def fromJsDate(date: js.Date): String = {
+    val day = date.getDate().toInt
+    val dayOfWeek = date.getDay().toInt
+    val month = date.getMonth().toInt + 1
+    val year = date.getFullYear().toInt
+
+    s"$day-$month-$year"
+  }
+
+  // https://gist.github.com/JamesMessinger/a0d6389a5d0e3a24814b
+  def onBtnArchive() = {
+    // Archive items:
+
+    val indexDb = window.indexedDB.get
+    val open = indexDb.open("ShoppingDb", 1)
+
+    // TODO: need to have a unique identified for each record/batch saved
+    // Upgrade
+    open.onupgradeneeded = (e: IDBEvent[IDBDatabase]) => {
+      val db = e.target.result
+      val opts = new IDBCreateObjectStoreOptions {
+        override val keyPath = "id" // works like RDB index
+      }
+      val store = db.createObjectStore("ShoppingDb", opts)
+      store.createIndex(
+        "ItemsIndex",
+        js.Array("id", "date", "itemId", "itemName")
+      )
+    }
+
+    // Operation
+    open.onsuccess = (e: IDBEvent[IDBDatabase]) => {
+      import js.Dynamic.{literal => obj}
+
+      val db = e.target.result
+      val tx = db.transaction("ShoppingDb", IDBTransactionMode.readwrite)
+      val store = tx.objectStore("ShoppingDb")
+      val index = store.index("ItemsIndex")
+
+      val date = fromJsDate(new js.Date(js.Date.now()))
+
+      dynModel
+        .now()
+        .basket
+        .foreach(selectedItem =>
+          store
+            .put(
+              obj(
+                id = Random.nextInt(10000000).toString,
+                date = date,
+                itemId = selectedItem.item.id,
+                itemName = selectedItem.item.name
+              )
+            )
+          onUnSelectedInBasket(selectedItem.item.id)
+        )
+
+      tx.oncomplete = (e: Event) => {
+        db.close()
+      }
+
+    }
+
   }
 
 }
