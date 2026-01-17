@@ -1,11 +1,20 @@
 package shopping
 
 import com.raquo.laminar.api.L.Var
+import org.scalajs.dom.Event
+import org.scalajs.dom.IDBCreateObjectStoreOptions
+import org.scalajs.dom.IDBDatabase
+import org.scalajs.dom.IDBEvent
+import org.scalajs.dom.IDBTransactionMode
+import org.scalajs.dom.window
 import shopping.models.Category
 import shopping.models.SelectableItem
 import shopping.models.ViewModel
 import shopping.models.ViewModelState
 import shopping.models.ViewModelState.ItemByCategoryView
+
+import java.util.UUID
+import scala.scalajs.js
 
 // Various actions for view model
 class Controller(dynModel: Var[ViewModel]) {
@@ -95,11 +104,52 @@ class Controller(dynModel: Var[ViewModel]) {
     )
   }
 
+  // https://gist.github.com/JamesMessinger/a0d6389a5d0e3a24814b
   def onBtnArchive() = {
     // Archive items:
 
-    // Empty view model
-    dynModel.now().basket.foreach(e => onUnSelectedInBasket(e.item.id))
+    val indexDb = window.indexedDB.get
+    val open = indexDb.open("ShoppingDb", 1)
+
+    // TODO: need to have a unique identified for each record/batch saved
+    // Upgrade
+    open.onupgradeneeded = (e: IDBEvent[IDBDatabase]) => {
+      val db = e.target.result
+      val opts = new IDBCreateObjectStoreOptions { override val keyPath = "id" }
+      val store = db.createObjectStore("ShoppingDb", opts)
+      store.createIndex("ItemsIndex", js.Array("date", "item.id", "item.name"))
+    }
+
+    // Operation
+    open.onsuccess = (e: IDBEvent[IDBDatabase]) => {
+      import js.Dynamic.{literal => obj}
+
+      val db = e.target.result
+      val tx = db.transaction("ShoppingDb", IDBTransactionMode.readwrite)
+      val store = tx.objectStore("ShoppingDb")
+      val index = store.index("ItemsIndex")
+
+      dynModel
+        .now()
+        .basket
+        .foreach(selectedItem =>
+          store
+            .put(
+              obj(
+                date = js.Date.now().toString,
+                id = selectedItem.item.id,
+                name = selectedItem.item.name
+              )
+            )
+          onUnSelectedInBasket(selectedItem.item.id)
+        )
+
+      tx.oncomplete = (e: Event) => {
+        db.close()
+      }
+
+    }
+
   }
 
 }

@@ -67,7 +67,6 @@ lazy val frontend = project
   .settings(
     name := """shopping-frontend""",
     mainClass := Some("shopping.Frontend"),
-    scalacOptions ++= Seq("-Xmax-inlines", "128"),
     libraryDependencies ++= Seq(
       "com.raquo" %%% "laminar" % laminarVersion,
       "io.bullet" %%% "borer-core" % BorerVersion,
