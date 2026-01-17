@@ -8,7 +8,7 @@ import shopping.models.SelectableItem
 import shopping.models.ViewModel
 import shopping.models.ViewModelState.BasketView
 
-trait BasketView(controller: Controller) {
+trait BasketView(ctrl: Controller) {
 
   def viewBasket(vm: Signal[ViewModel]): Div = {
     div(
@@ -36,6 +36,18 @@ trait BasketView(controller: Controller) {
             .map(_.basket)
             .map(_.map(basketItem(_)))
         )
+      ),
+      button(
+        className <--
+          vm.map(_.state)
+            .map(s =>
+              s match {
+                case _ =>
+                  "btn btn-primary btn-lg"
+              }
+            ),
+        "Archive",
+        onClick.compose(_.delay(500)) --> ctrl.onBtnArchive()
       )
     )
   }
@@ -49,7 +61,7 @@ trait BasketView(controller: Controller) {
       td(
         className := "col",
         div(
-          onClick --> controller.onUnSelectedInBasket(selectable.item.id),
+          onClick --> ctrl.onUnSelectedInBasket(selectable.item.id),
           svg.svg(
             svg.fill := "none",
             svg.stroke := "currentColor",
@@ -59,7 +71,7 @@ trait BasketView(controller: Controller) {
             svg.path(
               svg.d := "m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
             ),
-            onClick --> controller.onUnSelectedInBasket(selectable.item.id)
+            onClick --> ctrl.onUnSelectedInBasket(selectable.item.id)
           )
         )
       )

@@ -95,4 +95,12 @@ class Controller(dynModel: Var[ViewModel]) {
     )
   }
 
+  def onBtnArchive() = {
+    // Archive items:
+
+    // Empty view model
+    dynModel.now().basket.foreach(e => onUnSelectedInBasket(e.item.id))
+  }
+
+
 }

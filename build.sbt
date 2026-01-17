@@ -72,7 +72,11 @@ lazy val frontend = project
       "io.bullet" %%% "borer-core" % BorerVersion,
       "io.bullet" %%% "borer-derivation" % BorerVersion,
       "org.scala-js" %%% "scalajs-dom" % "2.8.0", // TODO: do we need to remove this??
-      "com.lihaoyi" %%% "utest" % "0.9.2" % "test"
+      "com.lihaoyi" %%% "utest" % "0.9.2" % "test",
+      "dev.guillaumebogard" %%% "scalajs-idb-core" % "0.2.0"
+      // Optional
+      // "dev.guillaumebogard" %%% "scalajs-idb-cats-effect" % "0.2.0",
+      // "dev.guillaumebogard" %%% "scalajs-idb-java-time" % "0.2.0"
     ),
     scalaJSUseMainModuleInitializer := true,
     jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv(),
