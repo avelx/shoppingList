@@ -129,6 +129,7 @@ class Controller(dynModel: Var[ViewModel]) {
       val store = tx.objectStore("ShoppingDb")
       val index = store.index("ItemsIndex")
 
+      val entryId = js.Date.now().toString // This not date presented as a String!!!
       dynModel
         .now()
         .basket
@@ -136,7 +137,7 @@ class Controller(dynModel: Var[ViewModel]) {
           store
             .put(
               obj(
-                date = js.Date.now().toString,
+                date = entryId,
                 id = selectedItem.item.id,
                 name = selectedItem.item.name
               )
