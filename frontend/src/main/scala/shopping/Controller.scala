@@ -115,7 +115,9 @@ class Controller(dynModel: Var[ViewModel]) {
     // Upgrade
     open.onupgradeneeded = (e: IDBEvent[IDBDatabase]) => {
       val db = e.target.result
-      val opts = new IDBCreateObjectStoreOptions { override val keyPath = "id" }
+      val opts = new IDBCreateObjectStoreOptions {
+        override val keyPath = "id" // works like RDB index
+      }
       val store = db.createObjectStore("ShoppingDb", opts)
       store.createIndex("ItemsIndex", js.Array("date", "item.id", "item.name"))
     }
