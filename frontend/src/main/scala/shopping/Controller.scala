@@ -14,7 +14,9 @@ import shopping.models.ViewModelState
 import shopping.models.ViewModelState.ItemByCategoryView
 
 import java.util.UUID
+import java.util.UUID.randomUUID
 import scala.scalajs.js
+import scala.util.Random
 
 // Various actions for view model
 class Controller(dynModel: Var[ViewModel]) {
@@ -104,6 +106,15 @@ class Controller(dynModel: Var[ViewModel]) {
     )
   }
 
+  def fromJsDate(date: js.Date): String = {
+    val day = date.getDate().toInt
+    val dayOfWeek = date.getDay().toInt
+    val month = date.getMonth().toInt + 1
+    val year = date.getFullYear().toInt
+
+    s"$day-$month-$year"
+  }
+
   // https://gist.github.com/JamesMessinger/a0d6389a5d0e3a24814b
   def onBtnArchive() = {
     // Archive items:
@@ -119,7 +130,10 @@ class Controller(dynModel: Var[ViewModel]) {
         override val keyPath = "id" // works like RDB index
       }
       val store = db.createObjectStore("ShoppingDb", opts)
-      store.createIndex("ItemsIndex", js.Array("date", "item.id", "item.name"))
+      store.createIndex(
+        "ItemsIndex",
+        js.Array("id", "date", "itemId", "itemName")
+      )
     }
 
     // Operation
@@ -131,8 +145,8 @@ class Controller(dynModel: Var[ViewModel]) {
       val store = tx.objectStore("ShoppingDb")
       val index = store.index("ItemsIndex")
 
-      val entryId =
-        js.Date.now().toString // This not date presented as a String!!!
+      val date = fromJsDate(new js.Date(js.Date.now()))
+
       dynModel
         .now()
         .basket
@@ -140,9 +154,10 @@ class Controller(dynModel: Var[ViewModel]) {
           store
             .put(
               obj(
-                date = entryId,
-                id = selectedItem.item.id,
-                name = selectedItem.item.name
+                id = Random.nextInt(10000000).toString,
+                date = date,
+                itemId = selectedItem.item.id,
+                itemName = selectedItem.item.name
               )
             )
           onUnSelectedInBasket(selectedItem.item.id)
