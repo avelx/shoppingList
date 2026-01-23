@@ -15,9 +15,13 @@ object FrontendApp {
 
   def main(args: Array[String]): Unit = {
 
+    val controller = Controller(dynModel = viewModelVar)
+    val view: MainView = MainView(controller)
+
     windowEvents(_.onLoad).foreach { _ =>
-      lazy val appContainer: Element = dom.document.getElementById("mount")
-      setupUI(appContainer)
+      val app = document.createElement("div")
+      document.body.appendChild(app)
+      setupUI(app)
     }(unsafeWindowOwner)
   }
 

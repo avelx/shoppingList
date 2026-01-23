@@ -38,6 +38,9 @@ trait BasketView(ctrl: Controller) {
         )
       ),
       button(
+        display <-- vm.map(m =>
+          if (m.basket.nonEmpty) then "block" else "none"
+        ),
         className <--
           vm.map(_.state)
             .map(s =>
