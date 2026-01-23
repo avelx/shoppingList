@@ -5,7 +5,9 @@ import com.raquo.laminar.api.L.{_, given}
 import com.raquo.laminar.api.features.unitArrows
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import io.bullet.borer.Json
+import org.scalajs.dom
 import org.scalajs.dom.HTMLDivElement
+import org.scalajs.dom.MouseEvent
 import shopping.Controller
 import shopping.models.ViewModelState.BasketView
 import shopping.models.ViewModelState.CategoriesView
@@ -38,6 +40,13 @@ class MainView(controller: Controller)
       .map(_.data)
       .getOrElse(Map.empty)
   }
+
+  val clickBus = new EventBus[dom.MouseEvent]
+  val coordinateStream: EventStream[MouseEvent] = clickBus.events.map(ev => ev)
+  val clickObserver: Observer[MouseEvent] = Observer[dom.MouseEvent](onNext = ev => {
+      controller.onViewButtonPressed(CategoriesView)
+    })
+
 
   def build(vm: Signal[ViewModel]): ReactiveHtmlElement[HTMLDivElement] = {
     div(
@@ -82,13 +91,11 @@ class MainView(controller: Controller)
                     }
                   ),
               "Available Items",
-              onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
-                CategoriesView
-              )
+              onClick --> clickBus.writer,
+              coordinateStream --> clickObserver
             ),
-            onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
-              CategoriesView
-            )
+            onClick --> clickBus.writer,
+            coordinateStream --> clickObserver
           )
         ),
         div(
