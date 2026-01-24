@@ -15,10 +15,10 @@ import shopping.models._
 
 import java.nio.charset.StandardCharsets
 
-class MainView(controller: Controller)
-    extends BasketView(controller)
-    with CategoryView(controller)
-    with ItemView(controller) {
+class MainView(ctrl: Controller)
+    extends BasketView(ctrl)
+    with CategoryView(ctrl)
+    with ItemView(ctrl) {
 
   // TODO: add Json resource compile time validation logic
   private def loadCategories(response: String): List[Category] = {
@@ -41,22 +41,15 @@ class MainView(controller: Controller)
       .getOrElse(Map.empty)
   }
 
-  val clickBus = new EventBus[dom.MouseEvent]
-  val coordinateStream: EventStream[MouseEvent] = clickBus.events.map(ev => ev)
-  val clickObserver: Observer[MouseEvent] = Observer[dom.MouseEvent](onNext = ev => {
-      controller.onViewButtonPressed(CategoriesView)
-    })
-
-
   def build(vm: Signal[ViewModel]): ReactiveHtmlElement[HTMLDivElement] = {
     div(
       FetchStream.get("/data/categories.json") --> { responseText =>
         val categories = loadCategories(responseText)
-        controller.onCategoriesFetch(categories)
+        ctrl.onCategoriesFetch(categories)
       },
       FetchStream.get("/data/items.json") --> { responseText =>
         val items = loadItems(responseText)
-        controller.onItemsFetch(items)
+        ctrl.onItemsFetch(items)
       },
       className := "container text-start",
       div(
@@ -82,6 +75,7 @@ class MainView(controller: Controller)
           div(
             className := "d-grid gap-2",
             button(
+              nameAttr := CategoriesView.toString,
               className <--
                 vm.map(_.state)
                   .map(s =>
@@ -91,11 +85,9 @@ class MainView(controller: Controller)
                     }
                   ),
               "Available Items",
-              onClick --> clickBus.writer,
-              coordinateStream --> clickObserver
-            ),
-            onClick --> clickBus.writer,
-            coordinateStream --> clickObserver
+              onClick --> ctrl.clickBus.writer,
+              ctrl.coordinateStream --> ctrl.clickObserver
+            )
           )
         ),
         div(
@@ -103,6 +95,7 @@ class MainView(controller: Controller)
           div(
             className := "d-grid gap-2",
             button(
+              nameAttr := BasketView.toString,
               className <--
                 vm.map(_.state)
                   .map(s =>
@@ -112,12 +105,8 @@ class MainView(controller: Controller)
                     }
                   ),
               "View Basket",
-              onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
-                BasketView
-              )
-            ),
-            onClick.compose(_.delay(500)) --> controller.onViewButtonPressed(
-              BasketView
+              onClick --> ctrl.clickBus.writer,
+              ctrl.coordinateStream --> ctrl.clickObserver
             )
           )
         )
