@@ -22,20 +22,23 @@ class Controller(dynModel: Var[ViewModel]) {
 
   val clickBus = new EventBus[dom.MouseEvent]
   val coordinateStream: EventStream[MouseEvent] = clickBus.events.map(ev => ev)
+
   val clickObserver: Observer[MouseEvent] =
     Observer[dom.MouseEvent](onNext = ev => {
-      val e = ViewModelState.valueOf(
-        ev.target.asInstanceOf[org.scalajs.dom.HTMLButtonElement].name
-      )
-      e match {
-        case CategoriesView =>
-          onViewButtonPressed(CategoriesView)
-        case BasketView =>
-          onViewButtonPressed(BasketView)
-        case _ =>
-          dom.console.log(
-            s"Event not found: ${e}"
-          )
+      // Button event type
+      if (ev.target.isInstanceOf[org.scalajs.dom.HTMLButtonElement]) {
+        ViewModelState.valueOf(
+          ev.target.asInstanceOf[org.scalajs.dom.HTMLButtonElement].name
+        ) match {
+          case CategoriesView =>
+            onViewButtonPressed(CategoriesView)
+          case BasketView =>
+            onViewButtonPressed(BasketView)
+          case _ =>
+            dom.console.log(
+              s"Not identified button event: ${ev}"
+            )
+        }
       }
     })
 
