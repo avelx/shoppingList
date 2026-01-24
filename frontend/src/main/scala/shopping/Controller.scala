@@ -1,25 +1,46 @@
 package shopping
 
+import com.raquo.laminar.api.L.EventBus
+import com.raquo.laminar.api.L.EventStream
+import com.raquo.laminar.api.L.Observer
 import com.raquo.laminar.api.L.Var
-import org.scalajs.dom.Event
-import org.scalajs.dom.IDBCreateObjectStoreOptions
-import org.scalajs.dom.IDBDatabase
-import org.scalajs.dom.IDBEvent
-import org.scalajs.dom.IDBTransactionMode
-import org.scalajs.dom.window
+import org.scalajs.dom
+import org.scalajs.dom._
 import shopping.models.Category
 import shopping.models.SelectableItem
 import shopping.models.ViewModel
 import shopping.models.ViewModelState
+import shopping.models.ViewModelState.BasketView
+import shopping.models.ViewModelState.CategoriesView
 import shopping.models.ViewModelState.ItemByCategoryView
 
-import java.util.UUID
-import java.util.UUID.randomUUID
 import scala.scalajs.js
 import scala.util.Random
 
 // Various actions for view model
 class Controller(dynModel: Var[ViewModel]) {
+
+  val clickBus = new EventBus[dom.MouseEvent]
+  val coordinateStream: EventStream[MouseEvent] = clickBus.events.map(ev => ev)
+
+  val clickObserver: Observer[MouseEvent] =
+    Observer[dom.MouseEvent](onNext = ev => {
+      // Button event type
+      if (ev.target.isInstanceOf[org.scalajs.dom.HTMLButtonElement]) {
+        ViewModelState.valueOf(
+          ev.target.asInstanceOf[org.scalajs.dom.HTMLButtonElement].name
+        ) match {
+          case CategoriesView =>
+            onViewButtonPressed(CategoriesView)
+          case BasketView =>
+            onViewButtonPressed(BasketView)
+          case _ =>
+            dom.console.log(
+              s"Not identified button event: ${ev}"
+            )
+        }
+      }
+    })
 
   // Fetch response processing:
   def onCategoriesFetch(loadedCategories: List[Category]): Unit = {
@@ -138,7 +159,7 @@ class Controller(dynModel: Var[ViewModel]) {
 
     // Operation
     open.onsuccess = (e: IDBEvent[IDBDatabase]) => {
-      import js.Dynamic.{literal => obj}
+      import js.Dynamic.literal as obj
 
       val db = e.target.result
       val tx = db.transaction("ShoppingDb", IDBTransactionMode.readwrite)
